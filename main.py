@@ -12,9 +12,6 @@ reflectors = {
 }
 
 
- # 13, 9, 21
- # N => Y
-
 def enigma(letter):
     alpha = rotors[0]
     
@@ -42,8 +39,6 @@ def enigma(letter):
         letter = newLetter
 
 
-
-
 enigma('A')
 
 
@@ -67,7 +62,6 @@ W => N
 3:'BDFHJLCPRTXVZNYEIWGAKMUSQO' # rotor3
 
 B:'YRUHQSLDPXNGOKMIEBFZCWVJAT' # reflector
-
 
 '''
 
