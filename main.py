@@ -1,4 +1,4 @@
-rotors = {
+rotorOptions = {
     0: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     1: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ',
     2: 'AJDKSIRUXBLHWTMCQGZNPYFVOE',
@@ -11,58 +11,42 @@ reflectors = {
     'C':'FVPJIAOYEDRZXWGCTKUQSBNMHL',
 }
 
+alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-def enigma(letter):
-    alpha = rotors[0]
+
+def convert(letter, a, b, offset):
+    index = a.find(letter)
+    index += offset
+    if index > 25:
+        index -= 26
+    print(letter, b[index])
     
-    # alpha => rotor
-    for i in range(1,4):
-        rotor = rotors[i]
-        index = alpha.find(letter)
-        newLetter = rotor[index]
-        print(f'{letter} => {newLetter}')
-        letter = newLetter
+    return b[index]
+
+
+
+def enigma(letter, rotors, reflector):
+
+    for rotor in rotors:
+        letter = convert(letter, alpha, rotor[0], rotor[1])
     
-    # reflect
-    reflector = reflectors['B']
-    index = alpha.find(letter)
-    newLetter = reflector[index]
-    print(f'{letter} => {newLetter}')
-    letter = newLetter
+    letter = convert(letter, alpha, reflector, 0)
 
-    # rotor => alpha
-    for i in range(1,4):
-        rotor = rotors[4-i]
-        index = rotor.find(letter)
-        newLetter = alpha[index]
-        print(f'{letter} => {newLetter}')
-        letter = newLetter
+    for rotor in reversed(rotors):
+        letter = convert(letter, rotor[0], alpha, -rotor[1])
+    
+    print(letter)
 
 
-enigma('A')
+rotors = [ 
+    [rotorOptions[1], 0], 
+    [rotorOptions[2], 0], 
+    [rotorOptions[3], 0],
+]
 
+reflector = reflectors['B']
 
-'''
-Alpha => Rotor
-A => E
-E => S
-S => G
+enigma('A', rotors, reflector)
 
-Reflect:
-G => L
-
-Rotor => Alpha
-L => F
-F => W
-W => N
-
-0:'ABCDEFGHIJKLMNOPQRSTUVWXYZ' # alpha
-1:'EKMFLGDQVZNTOWYHXUSPAIBRCJ' # rotor1
-2:'AJDKSIRUXBLHWTMCQGZNPYFVOE' # rotor2
-3:'BDFHJLCPRTXVZNYEIWGAKMUSQO' # rotor3
-
-B:'YRUHQSLDPXNGOKMIEBFZCWVJAT' # reflector
-
-'''
 
 
